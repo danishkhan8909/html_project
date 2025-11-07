@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Danish Portfolio</title>
+
+  <style>
+    /* ========= RESET ========= */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: "Poppins", sans-serif;
+      line-height: 1.6;
+      background: var(--bg);
+      color: var(--text);
+      transition: background 0.4s, color 0.4s;
+    }
+
+    /* ========= VARIABLES ========= */
+    :root {
+      --bg: #ffffff;
+      --text: #0f172a;
+      --muted: #64748b;
+      --card: #f1f5f9;
+      --accent: #6366f1;
+      --accent-dark: #4f46e5;
+      --radius: 14px;
+      --shadow: 0 6px 18px rgba(0,0,0,0.08);
+      --container: 1rem;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #0f172a;
+        --text: #f1f5f9;
+        --muted: #94a3b8;
+        --card: #1e293b;
+        --accent: #7c5cff;
+        --accent-dark: #6b4df5;
+        --shadow: 0 8px 22px rgba(0,0,0,0.6);
+      }
+    }
+
+    /* Dark toggle */
+    #dark-toggle { position: absolute; left: -9999px; }
+    #dark-toggle:checked ~ .app {
+      --bg: #0f172a;
+      --text: #f1f5f9;
+      --muted: #94a3b8;
+      --card: #1e293b;
+      --accent: #7c5cff;
+      --accent-dark: #6b4df5;
+      --shadow: 0 8px 22px rgba(0,0,0,0.6);
+    }
+
+    .theme-toggle {
+      position: fixed;
+      right: 1rem;
+      top: 1rem;
+      background: var(--card);
+      color: var(--text);
+      padding: 0.4rem 0.6rem;
+      border-radius: 50%;
+      font-size: 1.1rem;
+      cursor: pointer;
+      box-shadow: var(--shadow);
+      z-index: 1000;
+      transition: transform 0.3s;
+    }
+    .theme-toggle:hover { transform: scale(1.1); }
+
+    /* ========= HEADER ========= */
+    header {
+      position: sticky;
+      top: 0;
+      background: rgba(255, 255, 255, 0.6);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid rgba(0,0,0,0.05);
+      z-index: 99;
+    }
+    .dark header { background: rgba(15,23,42,0.7); }
+    .nav {
+      max-width: 1100px;
+      margin: auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.8rem var(--container);
+    }
+    .logo {
+      font-weight: 700;
+      font-size: 1.2rem;
+      text-decoration: none;
+      color: var(--text);
+    }
+    nav a {
+      color: var(--muted);
+      margin-left: 1rem;
+      text-decoration: none;
+      font-weight: 600;
+      transition: color 0.3s;
+    }
+    nav a:hover { color: var(--accent); }
+
+    /* ========= HERO ========= */
+    .hero {
+      padding: 5rem var(--container) 3rem;
+      background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+      color: #fff;
+      text-align: center;
+      border-bottom-left-radius: 3rem;
+      border-bottom-right-radius: 3rem;
+    }
+    .hero h1 {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+    .hero p {
+      font-size: 1rem;
+      opacity: 0.9;
+      margin-bottom: 1.2rem;
+    }
+    .hero .btns {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.6rem;
+    }
+    .btn {
+      display: inline-block;
+      background: #fff;
+      color: var(--accent-dark);
+      padding: 0.8rem 1.4rem;
+      border-radius: var(--radius);
+      text-decoration: none;
+      font-weight: 600;
+      transition: transform 0.3s, background 0.3s;
+    }
+    .btn:hover { transform: translateY(-2px); background: var(--accent-dark); color: #fff; }
+    .btn-outline {
+      background: transparent;
+      border: 2px solid #fff;
+      color: #fff;
+    }
+    .btn-outline:hover { background: rgba(255,255,255,0.15); }
+
+    /* ========= SECTIONS ========= */
+    section {
+      padding: 3rem var(--container);
+      max-width: 1100px;
+      margin: auto;
+    }
+    .section-title {
+      text-align: center;
+      font-size: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    /* ========= SERVICES ========= */
+    .services-grid {
+      display: grid;
+      gap: 1rem;
+    }
+    .card {
+      background: var(--card);
+      padding: 1.5rem;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      transition: transform 0.3s;
+    }
+    .card:hover { transform: translateY(-4px); }
+    .card h3 {
+      margin-bottom: 0.5rem;
+      color: var(--accent);
+    }
+
+    /* ========= TESTIMONIALS ========= */
+    .testimonials-grid {
+      display: grid;
+      gap: 1rem;
+    }
+    blockquote {
+      background: var(--card);
+      padding: 1.2rem 1.5rem;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      font-style: italic;
+      transition: transform 0.3s;
+    }
+    blockquote:hover { transform: translateY(-3px); }
+    footer { margin-top: 0.5rem; font-style: normal; color: var(--muted); }
+
+    /* ========= CONTACT ========= */
+    .contact-form {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    label span { display: block; font-weight: 600; margin-bottom: 0.3rem; }
+    input, textarea {
+      width: 100%;
+      padding: 0.9rem;
+      border-radius: var(--radius);
+      border: 1px solid rgba(0,0,0,0.1);
+      background: var(--bg);
+      color: var(--text);
+      font-size: 1rem;
+    }
+    textarea { resize: vertical; }
+    button {
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      padding: 0.9rem;
+      border-radius: var(--radius);
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    button:hover { background: var(--accent-dark); }
+
+    /* ========= RESPONSIVE ========= */
+    @media (min-width: 768px) {
+      .hero h1 { font-size: 2.5rem; }
+      .hero .btns { flex-direction: row; justify-content: center; }
+      .services-grid { grid-template-columns: repeat(2, 1fr); }
+      .testimonials-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (min-width: 1024px) {
+      .hero h1 { font-size: 3rem; }
+      .services-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+
+    /* Smooth animations */
+    [data-animate] { opacity: 0; transform: translateY(20px); transition: all 0.6s ease; }
+    [data-animate].show { opacity: 1; transform: translateY(0); }
+  </style>
+</head>
+
+<body>
+  <!-- 🌙 Dark Mode Toggle -->
+  <input type="checkbox" id="dark-toggle" />
+  <label for="dark-toggle" class="theme-toggle">🌓</label>
+
+  <div class="app">
+    <!-- HEADER -->
+    <header>
+      <div class="nav">
+        <a href="#hero" class="logo"></a>
+        <nav>
+          <a href="#services">Services</a>
+          <a href="#testimonials">Testimonials</a>
+          <a href="#contact">Contact</a>
+        </nav>
+      </div>
+    </header>
+
+    <!-- HERO -->
+    <section id="hero" class="hero">
+      <h1 data-animate>Hi, I'm Danish — Frontend Developer</h1>
+      <p data-animate>I create modern, responsive, and accessible websites for businesses and creators.</p>
+      <div class="btns" data-animate>
+        <a href="#contact" class="btn">Hire Me</a>
+        <a href="#services" class="btn btn-outline">View Services</a>
+      </div>
+    </section>
+
+    <!-- SERVICES -->
+    <section id="services">
+      <h2 class="section-title" data-animate>Services</h2>
+      <div class="services-grid">
+        <div class="card" data-animate>
+          <h3>Web Development</h3>
+          <p>Responsive, SEO-optimized websites with clean, maintainable code.</p>
+        </div>
+        <div class="card" data-animate>
+          <h3>UI/UX Design</h3>
+          <p>Beautiful and user-centered interfaces that enhance user engagement.</p>
+        </div>
+        <div class="card" data-animate>
+          <h3>Performance Optimization</h3>
+          <p>Fast, reliable, and smooth experiences for every device.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- TESTIMONIALS -->
+    <section id="testimonials">
+      <h2 class="section-title" data-animate>Feedback</h2>
+      <div class="testimonials-grid">
+        <blockquote data-animate>
+          “Working with Danish was a delight! The project was delivered before deadline.”
+          <footer>— Faizan, Project Manager</footer>
+        </blockquote>
+        <blockquote data-animate>
+          “The UI was modern, clean, and responsive. Great attention to detail!”
+          <footer>— Vivek, Designer</footer>
+        </blockquote>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact">
+      <h2 class="section-title" data-animate>Contact</h2>
+      <form class="contact-form" data-animate>
+        <label>
+          <span>Name</span>
+          <input type="text" required />
+        </label>
+        <label>
+          <span>Email</span>
+          <input type="email" required />
+        </label>
+        <label>
+          <span>Message</span>
+          <textarea rows="5" required></textarea>
+        </label>
+        <button type="submit">Send Message</button>
+      </form>
+    </section>
+  </div>
+
+  <script>
+    // Simple intersection observer for smooth fade-in animations
+    const items = document.querySelectorAll("[data-animate]");
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("show");
+        }
+      });
+    }, { threshold: 0.2 });
+    items.forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>
